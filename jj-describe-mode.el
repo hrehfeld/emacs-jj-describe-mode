@@ -32,6 +32,12 @@
     map)
   "Keymap for `jj-describe-mode'.")
 
+(defun jj-describe-mode-finish ()
+  "Finish editing the change description."
+  (interactive)
+  (save-buffer)
+  (kill-buffer))
+
 (defun jj-describe-mode-in-temp-dir-p ()
   "Check if `default-directory' is in a temporary directory."
   (let ((normalized-dirs (mapcar #'directory-file-name jj-describe-mode-temp-dirs)))
