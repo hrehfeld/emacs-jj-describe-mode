@@ -52,6 +52,7 @@
   (or (locate-dominating-file default-directory ".jj")
       (locate-dominating-file (buffer-file-name) ".jj")))
 
+
 (defun jj-describe-mode-insert-status ()
   "Insert the output of `jj status` at the end of the buffer and comment it out."
   (let ((root (jj-describe-mode-get-repo-root))
