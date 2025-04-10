@@ -51,7 +51,7 @@
   "Insert the output of `jj status` at the end of the buffer and comment it out."
   (let ((root (jj-describe-mode-get-repo-root))
         (point (point)))
-    (when root
+    (if root
       (let ((output (shell-command-to-string "jj status")))
         (if (string-empty-p output)
             (user-error "Failed to retrieve status.")
@@ -59,7 +59,8 @@
             (goto-char end-pos)
             (insert output)
             (comment-region end-pos (point-max))
-            (goto-char point)))))))
+            (goto-char point))))
+      (message "No jj repo found in %s or %s." default-directory (buffer-file-name)))))
 
 (defun jj-describe-mode-insert-info ()
   "Centralized function to insert additional info comments into the buffer."
