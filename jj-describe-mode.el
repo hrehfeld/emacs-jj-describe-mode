@@ -80,7 +80,7 @@
   (jj-describe-mode-setup))
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\CHANGE-" . jj-describe-mode))
+(add-to-list 'auto-mode-alist '("\\(CHANGE\\|COMMIT\\)-" . jj-describe-mode))
 
 (provide 'jj-describe-mode)
 
