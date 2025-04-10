@@ -13,7 +13,8 @@
 
 ;;; Code:
 
-(defvar jj-describe-mode-hook nil
+
+(defvar jj-describe-mode-hook '(jj-describe-mode-insert-info)
   "Hook run when entering `jj-describe-mode'.")
 
 (defcustom jj-describe-mode-temp-dirs '("/tmp/")
@@ -24,6 +25,10 @@
 (defcustom jj-describe-mode-info-functions '(jj-describe-mode-insert-status)
   "List of functions to call for inserting additional info into the buffer."
   :type '(repeat function)
+  :group 'jj-describe-mode)
+
+(defcustom jj-describe-mode-insert-header "Status:" "Header to insert at the beginning of the inserted block"
+  :type 'string
   :group 'jj-describe-mode)
 
 (defvar jj-describe-mode-map
@@ -64,8 +69,20 @@
 
 (defun jj-describe-mode-insert-info ()
   "Centralized function to insert additional info comments into the buffer."
-  (run-hooks 'jj-describe-mode-info-functions))
-
+  ;; find start of previous comment and delete comment block
+  (save-excursion
+    (goto-char (point-min))
+    (when (let ((search-re (concat comment-start-skip (regexp-quote jj-describe-mode-insert-header))))
+            (message "Searching for %s" search-re)
+            (re-search-forward search-re nil t))
+      (while (progn
+               (beginning-of-line)
+               (looking-at-p comment-start-skip))
+        (delete-line))))
+  (when jj-describe-mode-info-functions
+    (goto-char (point-max))
+    (insert comment-start jj-describe-mode-insert-header "\n")
+    (run-hooks 'jj-describe-mode-info-functions)))
 
 (defvar jj-describe-mode nil "Is jj-describe-mode active?")
 ;;;###autoload
