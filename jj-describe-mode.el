@@ -66,18 +66,16 @@
   "Centralized function to insert additional info comments into the buffer."
   (run-hooks 'jj-describe-mode-info-functions))
 
-(defun jj-describe-mode-setup ()
-  "Setup function for `jj-describe-mode'."
-  (setq-local comment-start "JJ: ")
-  (setq-local comment-end "")
-  (setq-local comment-start-skip "JJ: *")
-  (add-hook 'jj-describe-mode-hook #'jj-describe-mode-insert-info nil t))
 
+(defvar jj-describe-mode nil "Is jj-describe-mode active?")
 ;;;###autoload
 (define-derived-mode jj-describe-mode text-mode "JJ-Describe"
   "Major mode for editing change description files."
   :keymap jj-describe-mode-map
-  (jj-describe-mode-setup))
+  (setq-local comment-start "JJ: ")
+  (setq-local comment-end "")
+  (setq-local comment-start-skip "JJ: *")
+  )
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\(CHANGE\\|COMMIT\\)-" . jj-describe-mode))
