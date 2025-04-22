@@ -85,6 +85,19 @@
       (insert comment-start jj-describe-mode-insert-header "\n")
       (run-hooks 'jj-describe-mode-info-functions))))
 
+(defun jj-describe-mode--syntax-propertize (start end)
+  "Add syntax properties to the region between START and END."
+  (goto-char start)
+  ;; find all comments started with `comment-start-skip'
+  (while (re-search-forward comment-start-skip end t)
+    (let ((comment-start (match-beginning 0))
+          (comment-end (match-end 0)))
+      ;;(message "Found comment at %d-%d: %s" comment-start comment-end (buffer-substring-no-properties comment-start comment-end))
+      ;; mark start and end of comment with syntax text properties
+      (put-text-property comment-start (1+ comment-start) 'syntax-table (string-to-syntax "<"))
+      (end-of-line)
+      (put-text-property (point) (1+ (point)) 'syntax-table (string-to-syntax ">")))))
+
 (defvar jj-describe-mode nil "Is jj-describe-mode active?")
 ;;;###autoload
 (define-derived-mode jj-describe-mode text-mode "JJ-Describe"
@@ -93,6 +106,8 @@
   (setq-local comment-start "JJ: ")
   (setq-local comment-end "")
   (setq-local comment-start-skip "JJ: *")
+  (setq-local font-lock-defaults '(nil nil nil nil))
+  (setq-local syntax-propertize-function #'jj-describe-mode--syntax-propertize)
   )
 
 ;;;###autoload
