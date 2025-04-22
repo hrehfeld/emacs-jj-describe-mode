@@ -93,6 +93,8 @@
   (setq-local comment-start "JJ: ")
   (setq-local comment-end "")
   (setq-local comment-start-skip "JJ: *")
+  (setq-local font-lock-defaults
+              '((("^JJ:.*$" . font-lock-comment-face))))
   )
 
 ;;;###autoload
