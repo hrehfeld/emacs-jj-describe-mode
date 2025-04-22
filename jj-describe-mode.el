@@ -96,7 +96,7 @@
   )
 
 ;;;###autoload
-(add-to-list 'auto-mode-alist '("\\(CHANGE\\|COMMIT\\)-" . jj-describe-mode))
+(add-to-list 'auto-mode-alist '("\\(CHANGE\\|COMMIT\\)-\\|jjdescription" . jj-describe-mode))
 
 (provide 'jj-describe-mode)
 
