@@ -79,11 +79,11 @@
       (while (progn
                (beginning-of-line)
                (looking-at-p comment-start-skip))
-        (delete-line))))
-  (when jj-describe-mode-info-functions
-    (goto-char (point-max))
-    (insert comment-start jj-describe-mode-insert-header "\n")
-    (run-hooks 'jj-describe-mode-info-functions)))
+        (delete-line)))
+    (when jj-describe-mode-info-functions
+      (goto-char (point-max))
+      (insert comment-start jj-describe-mode-insert-header "\n")
+      (run-hooks 'jj-describe-mode-info-functions))))
 
 (defvar jj-describe-mode nil "Is jj-describe-mode active?")
 ;;;###autoload
